@@ -22,14 +22,14 @@ const bikesJson = () => {
 }
 
 const newBikeId = () => {
-  const bikes = bikesJson().bikes
+  const bikes = bikesJson()
   //lodash maxBy method returns an object by default
   const maxBike = _.maxBy(bikes, bike => bike.id)
   return maxBike.id + 1
 }
 
 const updateBikeDataJson = (bikes) => {
-  const data = {bikes: bikes}
+  const data = bikes
   fs.writeFileSync(bikesPath, JSON.stringify(data))
 }
 
@@ -51,10 +51,11 @@ app.post("/api/v1/bikes", (req, res) => {
       year: year,
       model: model
     }
-    let bikes = bikesJson().bikes
+    debugger
+    let bikes = bikesJson()
     bikes.push(newBike)
     updateBikeDataJson(bikes)
-    res.status(201).json({ bike: newBike })
+    res.status(201).json(newBike)
   }
   else {
     res.status(422).json({ name: ["Fields can't be blank"] })

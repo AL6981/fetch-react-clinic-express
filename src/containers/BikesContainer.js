@@ -12,11 +12,45 @@ class BikesContainer extends Component {
   }
 
   addNewBike(bikePayload) {
-
+    fetch('/api/v1/bikes', {
+      method: 'POST',
+      body: JSON.stringify(bikePayload),
+      headers: {'Content-Type': 'application/json'},
+      credentials: 'same-origin'
+    })
+      .then(response => {
+        if (response.ok) {
+          return response;
+        } else {
+          let errorMessage = `${response.status} (${response.statusText})`,
+           error = new Error(errorMessage);
+          throw(error);
+        }
+      })
+     .then(response => response.json())
+     .then(body => {
+       let newBikes = this.state.bikes.concat(body)
+       this.setState({bikes: newBikes})
+      })
+     .catch(error => console.error(`Error in fetch: ${error.message}`));
   }
 
   componentDidMount() {
-    
+    fetch('/api/v1/bikes')
+      .then(response => {
+        if (response.ok) {
+          return response;
+        } else {
+          let errorMessage = `${response.status} (${response.statusText})`,
+           error = new Error(errorMessage);
+          throw(error);
+        }
+      })
+     .then(response => response.json())
+     .then(body => {
+       this.setState({bikes: body})
+      })
+     .catch(error => console.error(`Error in fetch: ${error.message}`));
   }
 
   render() {
