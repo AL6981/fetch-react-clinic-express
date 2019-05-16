@@ -30,7 +30,7 @@ class BikesContainer extends Component {
       })
      .then(response => response.json())
      .then(body => {
-       let newBikes = this.state.bikes.concat(body.bike)
+       let newBikes = this.state.bikes.concat(body)
        this.setState({bikes: newBikes})
       })
      .catch(error => console.error(`Error in fetch: ${error.message}`));
@@ -49,7 +49,7 @@ class BikesContainer extends Component {
       })
      .then(response => response.json())
      .then(body => {
-       this.setState({bikes: body.bikes})
+       this.setState({bikes: body})
       })
      .catch(error => console.error(`Error in fetch: ${error.message}`));
   }
